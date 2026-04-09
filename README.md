@@ -28,6 +28,12 @@ Designed with a premium, minimalist aesthetic, this website allows friends and f
 - **📱 Responsive Design**: Fully optimized for mobile, tablet, and desktop viewing, ensuring a seamless experience on any device.
 - **🎨 Elegant UI**: A sophisticated black and gold theme using *Playfair Display* and *Inter* typography for a luxurious feel.
 
+## 📸 Gallery Preview
+
+<div align="center">
+  <img src="images/preview.jpg" alt="Wedding Gallery Preview" width="800">
+</div>
+
 ## 🛠️ Tech Stack
 
 This project is built using modern web standards to ensure speed, accessibility, and high performance.
@@ -64,12 +70,6 @@ To view the website locally, follow these simple steps:
    ```
 3. **Open `index.html`**:
    Simply open the `index.html` file in your preferred web browser.
-
-## 📸 Preview
-
-<div align="center">
-  <img src="https://via.placeholder.com/800x450/000000/D4AF37?text=Premium+Gallery+Preview" alt="Gallery Preview" width="800">
-</div>
 
 ---
 
