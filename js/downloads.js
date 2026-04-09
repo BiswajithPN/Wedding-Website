@@ -119,6 +119,9 @@ function createAlbumDownloadCard(albumKey, album, container) {
     const sizeGB = (sizeMB / 1024).toFixed(2);
     const sizeText = sizeMB > 1024 ? `${sizeGB} GB` : `${sizeMB} MB`;
     
+    const albumFile = `${albumKey}.zip`;
+    const downloadPath = `downloads/${albumFile}`;
+    
     card.innerHTML = `
         <div class="album-download-info">
             <h3 class="album-download-title">${album.name}</h3>
@@ -129,14 +132,14 @@ function createAlbumDownloadCard(albumKey, album, container) {
                 <span>${sizeText}</span>
             </div>
         </div>
-        <button class="btn btn-download" data-album="${albumKey}">
+        <a href="${downloadPath}" download="${albumFile}" class="btn btn-download">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
             </svg>
             Download
-        </button>
+        </a>
     `;
     
     container.appendChild(card);
@@ -151,51 +154,14 @@ function setupDownloadButtons() {
     
     // Individual album downloads
     document.addEventListener('click', (e) => {
-        if (e.target.closest('.btn-download[data-album]')) {
-            const albumKey = e.target.closest('.btn-download').getAttribute('data-album');
-            if (albumKey && albumKey !== 'all') {
-                downloadAlbum(albumKey);
-            }
+        const downloadBtn = e.target.closest('.btn-download');
+        if (downloadBtn) {
+            const albumName = downloadBtn.getAttribute('download') || 'Album';
+            showToast(`${albumName} download started...`, '📂');
         }
     });
 }
 
-function downloadAlbum(albumKey) {
-    const albumFile = albumKey === 'all' ? 'complete_collection.zip' : `${albumKey}.zip`;
-    const downloadPath = `downloads/${albumFile}`;
-    
-    // Show professional aesthetic start toast
-    const albumName = albumKey === 'all' ? 'Complete Collection' : (albumData[albumKey] ? albumData[albumKey].name : 'Album');
-    showToast(`Preparing ${albumName}...`, '📂');
-    
-    // Check if the file exists on the server before trying to download
-    fetch(downloadPath, { method: 'HEAD' })
-        .then(response => {
-            if (response.ok) {
-                const link = document.createElement('a');
-                link.href = downloadPath;
-                link.download = albumFile;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                showToast('Download started successfully!', '✅');
-            } else {
-                showToast(`Error: ${albumFile} not found on server.`, '❌');
-                console.error(`File missing: ${downloadPath}`);
-                alert(`The file "${albumFile}" is missing from the "downloads/" folder on your server.\n\nTo fix this:\n1. Create a ZIP of your photos.\n2. Name it "${albumFile}".\n3. Place it in the "downloads" directory of the project.\n4. Push the changes to GitHub.`);
-            }
-        })
-        .catch(error => {
-            // Local file system access (file://) usually blocks HEAD requests
-            console.warn('Network check failed, attempting direct download...', error);
-            const link = document.createElement('a');
-            link.href = downloadPath;
-            link.download = albumFile;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-}
 
 // Helper function to format file size
 function formatFileSize(bytes) {
