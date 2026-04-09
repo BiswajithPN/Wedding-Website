@@ -5,13 +5,15 @@ const albumData = {
         name: 'Reception Images',
         description: 'Reception and celebration moments',
         folder: 'traditional',
-        count: 1886
+        count: 1886,
+        externalUrl: 'https://drive.google.com/drive/folders/17xdV6aukDNn8XfHrieXTv8ZT9VNPX5LN'
     },
     'candid': {
         name: 'Marriage Images',
         description: 'Marriage ceremony and special moments',
         folder: 'candid',
-        count: 1374
+        count: 1374,
+        externalUrl: 'https://drive.google.com/drive/folders/17xdV6aukDNn8XfHrieXTv8ZT9VNPX5LN'
     },
     'ceremony': {
         name: 'Ceremony',
@@ -25,10 +27,10 @@ const albumData = {
         folder: 'reception',
         count: 0
     },
-    'couple-portraits': {
-        name: 'Couple Portraits',
-        description: 'Intimate moments together',
-        folder: 'couple-portraits',
+    'featured': {
+        name: 'Featured Moments',
+        description: 'Selected high-quality highlights',
+        folder: 'featured',
         count: 0
     }
 };
@@ -120,7 +122,7 @@ function createAlbumDownloadCard(albumKey, album, container) {
     const sizeText = sizeMB > 1024 ? `${sizeGB} GB` : `${sizeMB} MB`;
     
     const albumFile = `${albumKey}.zip`;
-    const downloadPath = `downloads/${albumFile}`;
+    const downloadPath = album.externalUrl || `downloads/${albumFile}`;
     
     card.innerHTML = `
         <div class="album-download-info">
@@ -132,7 +134,7 @@ function createAlbumDownloadCard(albumKey, album, container) {
                 <span>${sizeText}</span>
             </div>
         </div>
-        <a href="${downloadPath}" download="${albumFile}" class="btn btn-download">
+        <a href="${downloadPath}" ${album.externalUrl ? 'target="_blank"' : 'download="' + albumFile + '"'} class="btn btn-download">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
