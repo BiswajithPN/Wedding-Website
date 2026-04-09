@@ -50,3 +50,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+/**
+ * Shows a professional aesthetic toast notification
+ * @param {string} message - The message to display
+ * @param {string} icon - The SVG icon or emoji to display (optional)
+ */
+function showToast(message, icon = '📥') {
+    // Create container if it doesn't exist
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    // Create toast element
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = `
+        <span class="toast-icon">${icon}</span>
+        <span class="toast-message">${message}</span>
+    `;
+
+    container.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => {
+        toast.classList.add('show');
+    }, 10);
+
+    // Remove after 3 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+            container.removeChild(toast);
+        }, 500);
+    }, 3000);
+}
+

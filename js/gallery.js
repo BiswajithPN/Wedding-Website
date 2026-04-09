@@ -203,6 +203,12 @@ function setupLightbox() {
         nextBtn.addEventListener('click', () => navigateImage(1));
     }
 
+    if (lightboxDownload) {
+        lightboxDownload.addEventListener('click', () => {
+            showToast('Photo download started...', '📸');
+        });
+    }
+
     lightbox.addEventListener('click', (e) => {
         if (e.target === lightbox) {
             closeLightbox();
@@ -222,12 +228,19 @@ function setupLightbox() {
 function showLightbox(imagePath, index) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxDownload = document.getElementById('lightboxDownload');
     const caption = lightbox.querySelector('.lightbox-caption');
 
     if (!lightbox || !lightboxImage) return;
 
     lightboxImage.src = imagePath;
     lightboxImage.alt = `Image ${index + 1} of ${currentImages.length}`;
+
+    if (lightboxDownload) {
+        lightboxDownload.href = imagePath;
+        const filename = imagePath.split('/').pop();
+        lightboxDownload.setAttribute('download', filename);
+    }
 
     if (caption) {
         caption.textContent = `${index + 1} / ${currentImages.length}`;

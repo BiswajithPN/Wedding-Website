@@ -161,19 +161,20 @@ function setupDownloadButtons() {
 }
 
 function downloadAlbum(albumKey) {
-    if (albumKey === 'all') {
-        // Download all albums as zip
-        // In a real implementation, this would trigger a server-side zip creation
-        alert('Downloading complete collection...\n\nNote: In a production environment, this would download a ZIP file containing all photos.');
-        // window.location.href = 'download.php?album=all';
-    } else {
-        const album = albumData[albumKey];
-        if (album) {
-            // Download specific album
-            alert(`Downloading ${album.name} album...\n\nNote: In a production environment, this would download a ZIP file containing ${album.count} photos.`);
-            // window.location.href = `download.php?album=${albumKey}`;
-        }
-    }
+    const albumFile = albumKey === 'all' ? 'complete_collection.zip' : `${albumKey}.zip`;
+    const downloadPath = `downloads/${albumFile}`;
+    
+    // Show professional aesthetic toast
+    const albumName = albumKey === 'all' ? 'Complete Collection' : (albumData[albumKey] ? albumData[albumKey].name : 'Album');
+    showToast(`${albumName} download started...`, '📂');
+    
+    // Attempt to download the ZIP file
+    const link = document.createElement('a');
+    link.href = downloadPath;
+    link.download = albumFile;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
 
 // Helper function to format file size

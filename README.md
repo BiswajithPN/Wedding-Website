@@ -23,16 +23,10 @@ Designed with a premium, minimalist aesthetic, this website allows friends and f
 ## ✨ Key Features
 
 - **🏆 Premium Gallery**: A high-end, responsive photo gallery with a lightbox viewer for an immersive experience.
+- **📥 Instant Downloads**: Fixed the download functionality! Users can now download individual high-res images directly from the gallery or full albums from the download center.
 - **📅 Event Timeline**: A beautiful chronological journey of the wedding day, from traditional morning rituals to the evening reception.
-- **📥 One-Click Downloads**: A dedicated section for guests to download high-resolution photos of the couple and the celebrations.
 - **📱 Responsive Design**: Fully optimized for mobile, tablet, and desktop viewing, ensuring a seamless experience on any device.
 - **🎨 Elegant UI**: A sophisticated black and gold theme using *Playfair Display* and *Inter* typography for a luxurious feel.
-
-## 📸 Gallery Preview
-
-<div align="center">
-  <img src="images/preview.jpg" alt="Wedding Gallery Preview" width="800">
-</div>
 
 ## 🛠️ Tech Stack
 
