@@ -164,17 +164,37 @@ function downloadAlbum(albumKey) {
     const albumFile = albumKey === 'all' ? 'complete_collection.zip' : `${albumKey}.zip`;
     const downloadPath = `downloads/${albumFile}`;
     
-    // Show professional aesthetic toast
+    // Show professional aesthetic start toast
     const albumName = albumKey === 'all' ? 'Complete Collection' : (albumData[albumKey] ? albumData[albumKey].name : 'Album');
-    showToast(`${albumName} download started...`, '📂');
+    showToast(`Preparing ${albumName}...`, '📂');
     
-    // Attempt to download the ZIP file
-    const link = document.createElement('a');
-    link.href = downloadPath;
-    link.download = albumFile;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Check if the file exists on the server before trying to download
+    fetch(downloadPath, { method: 'HEAD' })
+        .then(response => {
+            if (response.ok) {
+                const link = document.createElement('a');
+                link.href = downloadPath;
+                link.download = albumFile;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('Download started successfully!', '✅');
+            } else {
+                showToast(`Error: ${albumFile} not found on server.`, '❌');
+                console.error(`File missing: ${downloadPath}`);
+                alert(`The file "${albumFile}" is missing from the "downloads/" folder on your server.\n\nTo fix this:\n1. Create a ZIP of your photos.\n2. Name it "${albumFile}".\n3. Place it in the "downloads" directory of the project.\n4. Push the changes to GitHub.`);
+            }
+        })
+        .catch(error => {
+            // Local file system access (file://) usually blocks HEAD requests
+            console.warn('Network check failed, attempting direct download...', error);
+            const link = document.createElement('a');
+            link.href = downloadPath;
+            link.download = albumFile;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
 }
 
 // Helper function to format file size
